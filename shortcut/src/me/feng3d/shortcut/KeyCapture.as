@@ -1,7 +1,9 @@
 package me.feng3d.shortcut
 {
 	import flash.display.Stage;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 
 	/**
@@ -13,7 +15,12 @@ package me.feng3d.shortcut
 		/**
 		 * 捕获的按键字典
 		 */
-		private var mouseKey:Dictionary = new Dictionary();
+		private var mouseKeyDic:Dictionary = new Dictionary();
+
+		/**
+		 * 键盘按键字典
+		 */
+		private var boardKeyDic:Dictionary = new Dictionary();
 
 		/**
 		 * 按键状态
@@ -31,25 +38,92 @@ package me.feng3d.shortcut
 		{
 			init();
 
-			stage.addEventListener(MouseEvent.CLICK, onMouseEvent);
+			//
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeydown);
+			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyup);
+
+			//监听鼠标事件
+			var mouseEvents:Array = [ //
+				MouseEvent.CLICK, //
+				MouseEvent.CONTEXT_MENU, //
+				MouseEvent.DOUBLE_CLICK, //
+				MouseEvent.MIDDLE_CLICK, //
+				MouseEvent.MIDDLE_MOUSE_DOWN, //
+				MouseEvent.MIDDLE_MOUSE_UP, //
+				MouseEvent.MOUSE_DOWN, //
+				MouseEvent.MOUSE_MOVE, //
+				MouseEvent.MOUSE_OUT, //
+				MouseEvent.MOUSE_OVER, //
+				MouseEvent.MOUSE_UP, //
+				MouseEvent.MOUSE_WHEEL, //
+				MouseEvent.RELEASE_OUTSIDE, //
+				MouseEvent.RIGHT_CLICK, //
+				MouseEvent.RIGHT_MOUSE_DOWN, //
+				MouseEvent.RIGHT_MOUSE_UP, //
+				MouseEvent.ROLL_OUT, //
+				MouseEvent.ROLL_OVER, //
+				];
+			for (var i:int = 0; i < mouseEvents.length; i++)
+			{
+				stage.addEventListener(mouseEvents[i], onMouseOnce);
+			}
 		}
 
+		/**
+		 * 初始化
+		 */
 		private function init():void
 		{
-			mouseKey[MouseEvent.CLICK] = KeyConsts.Click;
+			//
+			boardKeyDic[Keyboard.CONTROL] = KeyConsts.CONTROL;
+			boardKeyDic[Keyboard.SHIFT] = KeyConsts.SHIFT;
+			boardKeyDic[Keyboard.END] = KeyConsts.END;
+			boardKeyDic[Keyboard.ESCAPE] = KeyConsts.ESCAPE;
+			boardKeyDic[Keyboard.ALTERNATE] = KeyConsts.ALTERNATE;
 		}
 
-		protected function onMouseEvent(event:MouseEvent):void
+		/**
+		 * 鼠标事件
+		 */
+		protected function onMouseOnce(event:MouseEvent):void
 		{
-			switch (event.type)
-			{
-				case MouseEvent.CLICK:
-				{
-					mouseKey[event.type];
-				}
-			}
+			var mouseKey:String = event.type;
+			keyState.pressKey(mouseKey);
+			keyState.releaseKey(mouseKey);
+		}
 
-			keyState.pressKey(mouseKey[event.type]);
+		/**
+		 * 键盘按下事件
+		 */
+		protected function onKeydown(event:KeyboardEvent):void
+		{
+			var boardKey:String = getBoardKey(event.keyCode);
+			if (boardKey != null)
+				keyState.pressKey(boardKey);
+			trace(event.keyCode);
+		}
+
+		/**
+		 * 键盘弹起事件
+		 */
+		protected function onKeyup(event:KeyboardEvent):void
+		{
+			var boardKey:String = getBoardKey(event.keyCode);
+			if (boardKey)
+				keyState.releaseKey(boardKey);
+		}
+
+		/**
+		 * 获取键盘按键名称
+		 */
+		private function getBoardKey(keyCode:uint):String
+		{
+			var boardKey:String = boardKeyDic[keyCode];
+			if (boardKey == null && Keyboard.A <= keyCode && keyCode <= Keyboard.Z)
+			{
+				boardKey = String.fromCharCode(keyCode).toLocaleLowerCase();
+			}
+			return boardKey;
 		}
 	}
 }

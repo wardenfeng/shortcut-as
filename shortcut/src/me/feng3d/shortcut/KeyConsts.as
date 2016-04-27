@@ -7,9 +7,10 @@ package me.feng3d.shortcut
 	 */
 	public class KeyConsts
 	{
-		/**
-		 * 鼠标左键单击
-		 */
-		public static var Click:String = "click";
+		public static const CONTROL:String = "ctrl";
+		public static const SHIFT:String = "shift";
+		public static const END:String = "end";
+		public static const ESCAPE:String = "escape";
+		public static const ALTERNATE:String = "alt";
 	}
 }

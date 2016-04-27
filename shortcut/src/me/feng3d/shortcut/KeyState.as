@@ -32,5 +32,30 @@ package me.feng3d.shortcut
 			keyStateDic[key] = true;
 			dispatchEvent(new Event(key));
 		}
+
+		/**
+		 * 释放键
+		 * @param key	键名称
+		 */
+		public function releaseKey(key:String):void
+		{
+			keyStateDic[key] = false;
+		}
+
+		/**
+		 * 检测是否满足快捷键需求
+		 * @param keys 按键数组
+		 */
+		public function check(keys:Array):Boolean
+		{
+			for (var i:int = 0; i < keys.length; i++)
+			{
+				if (!keyStateDic[keys[i]])
+					return false;
+			}
+			return true;
+		}
+
+
 	}
 }
