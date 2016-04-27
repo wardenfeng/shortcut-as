@@ -3,6 +3,7 @@ package me.feng3d.shortcut.handle
 	import flash.events.Event;
 
 	import mx.utils.StringUtil;
+
 	import me.feng3d.shortcut.ShortCut;
 
 
@@ -66,10 +67,34 @@ package me.feng3d.shortcut.handle
 		protected function onCapture(event:Event):void
 		{
 			var keys:Array = getKeys();
-			if (keyState.check(keys))
+
+			var inWhen:Boolean = checkActivityState();
+			var pressKeys:Boolean = keyState.check(keys);
+
+			if (pressKeys && inWhen)
 			{
 				ShortCut.commandDispatcher.dispatchEvent(new ShortCutEvent(command));
 			}
+		}
+
+		/**
+		 * 检测快捷键是否处于活跃状态
+		 */
+		private function checkActivityState():Boolean
+		{
+			if (when == null || StringUtil.trim(when).length == 0)
+				return true;
+			var whens:Array = when.split("&&");
+			for (var i:int = 0; i < whens.length; i++)
+			{
+				var whenStr:String = StringUtil.trim(whens[i]);
+				if (whenStr.length > 0)
+				{
+					if (!ShortCut.activityStateDic[whenStr])
+						return false;
+				}
+			}
+			return true;
 		}
 
 		/**

@@ -5,6 +5,7 @@ package me.feng3d.shortcut
 	import flash.events.IEventDispatcher;
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
+
 	import me.feng3d.shortcut.handle.KeyCapture;
 	import me.feng3d.shortcut.handle.KeyState;
 	import me.feng3d.shortcut.handle.ShortCutCapture;
@@ -19,6 +20,11 @@ package me.feng3d.shortcut
 		 * 按键状态
 		 */
 		public static var keyState:KeyState;
+
+		/**
+		 * 活动状态字典
+		 */
+		public static var activityStateDic:Dictionary;
 
 		/**
 		 * 按键捕获
@@ -52,6 +58,7 @@ package me.feng3d.shortcut
 
 			captureDic = new Dictionary();
 			boardKeyDic = new Dictionary();
+			activityStateDic = new Dictionary();
 			defaultSupportKeys();
 		}
 
@@ -79,14 +86,6 @@ package me.feng3d.shortcut
 				var shortcutUniqueKey:String = getShortcutUniqueKey(shortcut);
 				captureDic[shortcutUniqueKey] ||= new ShortCutCapture(shortcut.key, shortcut.command, shortcut.when);
 			}
-		}
-
-		/**
-		 * 获取快捷键唯一字符串
-		 */
-		private static function getShortcutUniqueKey(shortcut:Object):String
-		{
-			return shortcut.key + "," + shortcut.command + "," + shortcut.when;
 		}
 
 		/**
@@ -123,6 +122,14 @@ package me.feng3d.shortcut
 				captureDic[key].destroy();
 				delete captureDic[key];
 			}
+		}
+
+		/**
+		 * 获取快捷键唯一字符串
+		 */
+		private static function getShortcutUniqueKey(shortcut:Object):String
+		{
+			return shortcut.key + "," + shortcut.command + "," + shortcut.when;
 		}
 	}
 }

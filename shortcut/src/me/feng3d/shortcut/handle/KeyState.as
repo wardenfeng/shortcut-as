@@ -43,7 +43,7 @@ package me.feng3d.shortcut.handle
 		}
 
 		/**
-		 * 检测是否满足快捷键需求
+		 * 检测是否按下给出的键
 		 * @param keys 按键数组
 		 */
 		public function check(keys:Array):Boolean
@@ -55,7 +55,5 @@ package me.feng3d.shortcut.handle
 			}
 			return true;
 		}
-
-
 	}
 }

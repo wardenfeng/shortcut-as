@@ -81,7 +81,6 @@ package me.feng3d.shortcut.handle
 			var boardKey:String = getBoardKey(event.keyCode);
 			if (boardKey != null)
 				keyState.pressKey(boardKey);
-			trace(event.keyCode);
 		}
 
 		/**

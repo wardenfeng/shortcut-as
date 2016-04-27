@@ -21,8 +21,34 @@ package
 
 			ShortCut.init(stage);
 
+//			test();
 //			test1();
-			test();
+			test2();
+		}
+
+		private function test2():void
+		{
+			var shortcuts:Array = [ //
+				{key: MouseEvent.RIGHT_MOUSE_DOWN, command: "startDragSceneCamera", when: ""}, //
+				{key: MouseEvent.MOUSE_MOVE, command: "dragSceneCamera", when: "DragingSceneCamera"}, //
+				{key: MouseEvent.RIGHT_MOUSE_UP, command: "stopDragSceneCamera", when: "DragingSceneCamera"}, //
+				];
+			ShortCut.addShortCuts(shortcuts);
+
+			ShortCut.commandDispatcher.addEventListener("startDragSceneCamera", function(e:Event):void
+			{
+				trace(e.type);
+				ShortCut.activityStateDic["DragingSceneCamera"] = true;
+			});
+			ShortCut.commandDispatcher.addEventListener("dragSceneCamera", function(e:Event):void
+			{
+				trace(e.type);
+			});
+			ShortCut.commandDispatcher.addEventListener("stopDragSceneCamera", function(e:Event):void
+			{
+				trace(e.type);
+				ShortCut.activityStateDic["DragingSceneCamera"] = false;
+			});
 		}
 
 		private function test():void
