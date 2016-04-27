@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
-  <includeClasses/>
+  <includeClasses>
+    <classEntry path="me.feng3d.shortcut.ShortCut"/>
+    <classEntry path="me.feng3d.shortcut.configs.ShortCutConfig"/>
+    <classEntry path="me.feng3d.shortcut.configs.ShortCutConfigItem"/>
+    <classEntry path="me.feng3d.shortcut.KeyConsts"/>
+    <classEntry path="me.feng3d.shortcut.KeyCapture"/>
+    <classEntry path="me.feng3d.shortcut.KeyState"/>
+    <classEntry path="me.feng3d.shortcut.ShortCutCaptureItem"/>
+    <classEntry path="me.feng3d.shortcut.events.ShortCutCommandEvent"/>
+  </includeClasses>
   <includeResources/>
   <namespaceManifests/>
 </flexLibProperties>
