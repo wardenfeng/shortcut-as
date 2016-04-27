@@ -3,7 +3,11 @@ package me.feng3d.shortcut
 	import flash.display.Stage;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
+	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
+	import me.feng3d.shortcut.handle.KeyCapture;
+	import me.feng3d.shortcut.handle.KeyState;
+	import me.feng3d.shortcut.handle.ShortCutCapture;
 
 	/**
 	 * 初始化快捷键模块
@@ -27,6 +31,12 @@ package me.feng3d.shortcut
 		public static var commandDispatcher:IEventDispatcher;
 
 		/**
+		 * 键盘按键字典 （补充常量，a-z以及鼠标按键不必再次列出）
+		 * 例如 boardKeyDic[Keyboard.CONTROL] = "ctrl";
+		 */
+		public static var boardKeyDic:Dictionary;
+
+		/**
 		 * 捕获字典
 		 */
 		private static var captureDic:Dictionary;
@@ -41,6 +51,20 @@ package me.feng3d.shortcut
 			commandDispatcher = new EventDispatcher();
 
 			captureDic = new Dictionary();
+			boardKeyDic = new Dictionary();
+			defaultSupportKeys();
+		}
+
+		/**
+		 * 默认支持按键
+		 */
+		private static function defaultSupportKeys():void
+		{
+			boardKeyDic[Keyboard.CONTROL] = "ctrl";
+			boardKeyDic[Keyboard.SHIFT] = "shift";
+			boardKeyDic[Keyboard.ESCAPE] = "escape";
+			boardKeyDic[Keyboard.ALTERNATE] = "alt";
+			boardKeyDic[Keyboard.END] = "end";
 		}
 
 		/**

@@ -1,8 +1,10 @@
-package me.feng3d.shortcut
+package me.feng3d.shortcut.handle
 {
 	import flash.events.Event;
 
-	import me.feng3d.shortcut.events.ShortCutCommandEvent;
+	import mx.utils.StringUtil;
+	import me.feng3d.shortcut.ShortCut;
+
 
 	/**
 	 * 快捷键捕获
@@ -51,7 +53,7 @@ package me.feng3d.shortcut
 		 */
 		private function init():void
 		{
-			var keys:Array = key.split("+");
+			var keys:Array = getKeys();
 			for (var i:int = 0; i < keys.length; i++)
 			{
 				keyState.addEventListener(keys[i], onCapture);
@@ -63,19 +65,37 @@ package me.feng3d.shortcut
 		 */
 		protected function onCapture(event:Event):void
 		{
-			if (keyState.check(key.split("+")))
+			var keys:Array = getKeys();
+			if (keyState.check(keys))
 			{
-				ShortCut.commandDispatcher.dispatchEvent(new ShortCutCommandEvent(command));
+				ShortCut.commandDispatcher.dispatchEvent(new ShortCutEvent(command));
 			}
 		}
 
+		/**
+		 * 销毁
+		 */
 		public function destroy():void
 		{
-			var keys:Array = key.split("+");
+			var keys:Array = getKeys();
 			for (var i:int = 0; i < keys.length; i++)
 			{
 				keyState.removeEventListener(keys[i], onCapture);
 			}
+		}
+
+		/**
+		 * 获取键列表
+		 */
+		private function getKeys():Array
+		{
+			var keys:Array = key.split("+");
+			for (var i:int = 0; i < keys.length; i++)
+			{
+				keys[i] = StringUtil.trim(keys[i]);
+			}
+
+			return keys;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package me.feng3d.shortcut
+package me.feng3d.shortcut.handle
 {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;

@@ -1,10 +1,11 @@
-package me.feng3d.shortcut
+package me.feng3d.shortcut.handle
 {
 	import flash.display.Stage;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
+	import me.feng3d.shortcut.ShortCut;
 
 	/**
 	 * 按键捕获
@@ -16,11 +17,6 @@ package me.feng3d.shortcut
 		 * 捕获的按键字典
 		 */
 		private var mouseKeyDic:Dictionary = new Dictionary();
-
-		/**
-		 * 键盘按键字典
-		 */
-		private var boardKeyDic:Dictionary = new Dictionary();
 
 		/**
 		 * 按键状态
@@ -36,8 +32,6 @@ package me.feng3d.shortcut
 		 */
 		public function KeyCapture(stage:Stage)
 		{
-			init();
-
 			//
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeydown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyup);
@@ -67,19 +61,6 @@ package me.feng3d.shortcut
 			{
 				stage.addEventListener(mouseEvents[i], onMouseOnce);
 			}
-		}
-
-		/**
-		 * 初始化
-		 */
-		private function init():void
-		{
-			//
-			boardKeyDic[Keyboard.CONTROL] = KeyConsts.CONTROL;
-			boardKeyDic[Keyboard.SHIFT] = KeyConsts.SHIFT;
-			boardKeyDic[Keyboard.END] = KeyConsts.END;
-			boardKeyDic[Keyboard.ESCAPE] = KeyConsts.ESCAPE;
-			boardKeyDic[Keyboard.ALTERNATE] = KeyConsts.ALTERNATE;
 		}
 
 		/**
@@ -118,7 +99,7 @@ package me.feng3d.shortcut
 		 */
 		private function getBoardKey(keyCode:uint):String
 		{
-			var boardKey:String = boardKeyDic[keyCode];
+			var boardKey:String = ShortCut.boardKeyDic[keyCode];
 			if (boardKey == null && Keyboard.A <= keyCode && keyCode <= Keyboard.Z)
 			{
 				boardKey = String.fromCharCode(keyCode).toLocaleLowerCase();
