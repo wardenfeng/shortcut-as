@@ -2,6 +2,7 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
     <classEntry path="me.feng3d.shortcut.ns_shortcut"/>
+    <classEntry path="me.feng3d.shortcut.ShortCutContext"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

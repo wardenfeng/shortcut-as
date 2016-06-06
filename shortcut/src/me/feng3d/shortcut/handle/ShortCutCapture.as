@@ -31,10 +31,7 @@ package me.feng3d.shortcut.handle
 		/**
 		 * 按键状态
 		 */
-		private function get keyState():KeyState
-		{
-			return ShortCut.keyState;
-		}
+		private var keyState:KeyState;
 
 		/**
 		 * 构建快捷键捕获
@@ -42,8 +39,9 @@ package me.feng3d.shortcut.handle
 		 * @param command		要执行的命令名称
 		 * @param when			快捷键处于活动状态的条件
 		 */
-		public function ShortCutCapture(key:String, command:String, when:String = null)
+		public function ShortCutCapture(keyState:KeyState, key:String, command:String, when:String = null)
 		{
+			this.keyState = keyState;
 			this.key = key;
 			this.command = command;
 			this.when = when;

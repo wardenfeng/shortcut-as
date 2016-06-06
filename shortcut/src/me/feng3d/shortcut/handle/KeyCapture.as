@@ -6,7 +6,7 @@ package me.feng3d.shortcut.handle
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 
-	import me.feng3d.shortcut.ShortCut;
+	import me.feng3d.shortcut.ShortCutContext;
 	import me.feng3d.shortcut.ns_shortcut;
 
 	use namespace ns_shortcut;
@@ -18,27 +18,40 @@ package me.feng3d.shortcut.handle
 	public class KeyCapture
 	{
 		/**
+		 * 键盘按键字典 （补充常量，a-z以及鼠标按键不必再次列出）
+		 * 例如 boardKeyDic[Keyboard.CONTROL] = "ctrl";
+		 */
+		public var boardKeyDic:Dictionary;
+
+		/**
 		 * 捕获的按键字典
 		 */
 		private var mouseKeyDic:Dictionary = new Dictionary();
 
 		/**
+		 * 快捷键环境
+		 */
+		private var shortCutContext:ShortCutContext;
+
+		/**
 		 * 按键状态
 		 */
-		private function get keyState():KeyState
-		{
-			return ShortCut.keyState;
-		}
+		private var keyState:KeyState;
 
 		/**
 		 * 构建
 		 * @param stage		舞台
 		 */
-		public function KeyCapture(stage:Stage)
+		public function KeyCapture(shortCutContext:ShortCutContext)
 		{
+			keyState = shortCutContext.keyState;
+			var stage:Stage = shortCutContext.stage;
 			//
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeydown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyup);
+
+			boardKeyDic = new Dictionary();
+			defaultSupportKeys();
 
 			//监听鼠标事件
 			var mouseEvents:Array = [ //
@@ -65,6 +78,18 @@ package me.feng3d.shortcut.handle
 			{
 				stage.addEventListener(mouseEvents[i], onMouseOnce);
 			}
+		}
+
+		/**
+		 * 默认支持按键
+		 */
+		private function defaultSupportKeys():void
+		{
+			boardKeyDic[Keyboard.CONTROL] = "ctrl";
+			boardKeyDic[Keyboard.SHIFT] = "shift";
+			boardKeyDic[Keyboard.ESCAPE] = "escape";
+			boardKeyDic[Keyboard.ALTERNATE] = "alt";
+			boardKeyDic[Keyboard.END] = "end";
 		}
 
 		/**
@@ -102,7 +127,7 @@ package me.feng3d.shortcut.handle
 		 */
 		private function getBoardKey(keyCode:uint):String
 		{
-			var boardKey:String = ShortCut.boardKeyDic[keyCode];
+			var boardKey:String = boardKeyDic[keyCode];
 			if (boardKey == null && Keyboard.A <= keyCode && keyCode <= Keyboard.Z)
 			{
 				boardKey = String.fromCharCode(keyCode).toLocaleLowerCase();

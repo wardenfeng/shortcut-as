@@ -1,14 +1,7 @@
 package me.feng3d.shortcut
 {
 	import flash.display.Stage;
-	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
-	import flash.ui.Keyboard;
-	import flash.utils.Dictionary;
-
-	import me.feng3d.shortcut.handle.KeyCapture;
-	import me.feng3d.shortcut.handle.KeyState;
-	import me.feng3d.shortcut.handle.ShortCutCapture;
 
 	use namespace ns_shortcut;
 
@@ -24,56 +17,17 @@ package me.feng3d.shortcut
 		public static var commandDispatcher:IEventDispatcher;
 
 		/**
-		 * 按键状态
+		 * 快捷键环境
 		 */
-		ns_shortcut static var keyState:KeyState;
-
-		/**
-		 * 状态字典
-		 */
-		ns_shortcut static var stateDic:Dictionary;
-
-		/**
-		 * 按键捕获
-		 */
-		ns_shortcut static var keyCapture:KeyCapture;
-
-		/**
-		 * 键盘按键字典 （补充常量，a-z以及鼠标按键不必再次列出）
-		 * 例如 boardKeyDic[Keyboard.CONTROL] = "ctrl";
-		 */
-		ns_shortcut static var boardKeyDic:Dictionary;
-
-		/**
-		 * 捕获字典
-		 */
-		ns_shortcut static var captureDic:Dictionary;
+		private static var shortcutContext:ShortCutContext;
 
 		/**
 		 * 初始化快捷键模块
 		 */
 		public static function init(stage:Stage):void
 		{
-			keyState = new KeyState();
-			keyCapture = new KeyCapture(stage)
-			commandDispatcher = new EventDispatcher();
-
-			captureDic = new Dictionary();
-			boardKeyDic = new Dictionary();
-			stateDic = new Dictionary();
-			defaultSupportKeys();
-		}
-
-		/**
-		 * 默认支持按键
-		 */
-		private static function defaultSupportKeys():void
-		{
-			boardKeyDic[Keyboard.CONTROL] = "ctrl";
-			boardKeyDic[Keyboard.SHIFT] = "shift";
-			boardKeyDic[Keyboard.ESCAPE] = "escape";
-			boardKeyDic[Keyboard.ALTERNATE] = "alt";
-			boardKeyDic[Keyboard.END] = "end";
+			shortcutContext = new ShortCutContext(stage);
+			commandDispatcher = shortcutContext.commandDispatcher;
 		}
 
 		/**
@@ -82,12 +36,7 @@ package me.feng3d.shortcut
 		 */
 		public static function addShortCuts(shortcuts:Array):void
 		{
-			for (var i:int = 0; i < shortcuts.length; i++)
-			{
-				var shortcut:Object = shortcuts[i];
-				var shortcutUniqueKey:String = getShortcutUniqueKey(shortcut);
-				captureDic[shortcutUniqueKey] ||= new ShortCutCapture(shortcut.key, shortcut.command, shortcut.when);
-			}
+			shortcutContext.addShortCuts(shortcuts);
 		}
 
 		/**
@@ -96,16 +45,7 @@ package me.feng3d.shortcut
 		 */
 		public static function removeShortCuts(shortcuts:Array):void
 		{
-			for (var i:int = 0; i < shortcuts.length; i++)
-			{
-				var shortcutUniqueKey:String = getShortcutUniqueKey(shortcuts[i]);
-				var shortCutCapture:ShortCutCapture = captureDic[shortcutUniqueKey];
-				if (ShortCutCapture != null)
-				{
-					shortCutCapture.destroy();
-				}
-				delete captureDic[shortcutUniqueKey];
-			}
+			shortcutContext.removeShortCuts(shortcuts);
 		}
 
 		/**
@@ -113,17 +53,7 @@ package me.feng3d.shortcut
 		 */
 		public static function removeAllShortCuts():void
 		{
-			var keys:Array = [];
-			var key:String;
-			for (key in captureDic)
-			{
-				keys.push(key);
-			}
-			for each (key in keys)
-			{
-				captureDic[key].destroy();
-				delete captureDic[key];
-			}
+			shortcutContext.removeAllShortCuts();
 		}
 
 		/**
@@ -132,7 +62,7 @@ package me.feng3d.shortcut
 		 */
 		public static function activityState(state:String):void
 		{
-			stateDic[state] = true;
+			shortcutContext.activityState(state);
 		}
 
 		/**
@@ -141,7 +71,7 @@ package me.feng3d.shortcut
 		 */
 		public static function deactivateState(state:String):void
 		{
-			delete stateDic[state];
+			shortcutContext.deactivateState(state);
 		}
 
 		/**
@@ -150,15 +80,7 @@ package me.feng3d.shortcut
 		 */
 		public static function getState(state:String):Boolean
 		{
-			return !!stateDic[state];
-		}
-
-		/**
-		 * 获取快捷键唯一字符串
-		 */
-		private static function getShortcutUniqueKey(shortcut:Object):String
-		{
-			return shortcut.key + "," + shortcut.command + "," + shortcut.when;
+			return shortcutContext.getState(state);
 		}
 	}
 }
