@@ -4,7 +4,7 @@ package me.feng3d.shortcut.handle
 
 	import mx.utils.StringUtil;
 
-	import me.feng3d.shortcut.ShortCut;
+	import me.feng3d.shortcut.ShortCutContext;
 
 	/**
 	 * 快捷键捕获
@@ -13,13 +13,20 @@ package me.feng3d.shortcut.handle
 	public class ShortCutCapture
 	{
 		/**
+		 * 快捷键环境
+		 */
+		private var shortCutContext:ShortCutContext;
+
+		/**
 		 * 快捷键
 		 */
 		private var key:String;
+
 		/**
 		 * 要执行的命令名称
 		 */
 		private var command:String;
+
 		/**
 		 * 快捷键处于活动状态的条件
 		 */
@@ -31,17 +38,32 @@ package me.feng3d.shortcut.handle
 		private var keyState:KeyState;
 
 		/**
-		 * 构建快捷键捕获
-		 * @param key			快捷键
-		 * @param command		要执行的命令名称
-		 * @param when			快捷键处于活动状态的条件
+		 * 按键列表
 		 */
-		public function ShortCutCapture(keyState:KeyState, key:String, command:String, when:String = null)
+		private var keys:Vector.<Key>;
+
+		/**
+		 * 状态列表
+		 */
+		private var states:Vector.<State>;
+
+		/**
+		 * 构建快捷键捕获
+		 * @param shortCutContext		快捷键环境
+		 * @param key					快捷键
+		 * @param command				要执行的命令名称
+		 * @param when					快捷键处于活动状态的条件
+		 */
+		public function ShortCutCapture(shortCutContext:ShortCutContext, key:String, command:String, when:String = null)
 		{
-			this.keyState = keyState;
+			this.shortCutContext = shortCutContext;
+			this.keyState = shortCutContext.keyState;
 			this.key = key;
 			this.command = command;
 			this.when = when;
+
+			keys = getKeys(key);
+			states = getStates(when);
 
 			init();
 		}
@@ -51,45 +73,35 @@ package me.feng3d.shortcut.handle
 		 */
 		private function init():void
 		{
-			var keys:Array = getKeys();
 			for (var i:int = 0; i < keys.length; i++)
 			{
-				keyState.addEventListener(keys[i], onCapture);
+				keyState.addEventListener(keys[i].key, onCapture);
 			}
 		}
 
 		/**
 		 * 处理捕获事件
 		 */
-		protected function onCapture(event:Event):void
+		private function onCapture(event:Event):void
 		{
-			var keys:Array = getKeys();
-
-			var inWhen:Boolean = checkActivityState();
-			var pressKeys:Boolean = keyState.check(keys);
+			var inWhen:Boolean = checkActivityStates(states);
+			var pressKeys:Boolean = checkActivityKeys(keys);
 
 			if (pressKeys && inWhen)
 			{
-				ShortCut.commandDispatcher.dispatchEvent(new ShortCutEvent(command));
+				shortCutContext.commandDispatcher.dispatchEvent(new ShortCutEvent(command));
 			}
 		}
 
 		/**
 		 * 检测快捷键是否处于活跃状态
 		 */
-		private function checkActivityState():Boolean
+		private function checkActivityStates(states:Vector.<State>):Boolean
 		{
-			if (when == null || StringUtil.trim(when).length == 0)
-				return true;
-			var whens:Array = when.split("&&");
-			for (var i:int = 0; i < whens.length; i++)
+			for (var i:int = 0; i < states.length; i++)
 			{
-				var whenStr:String = StringUtil.trim(whens[i]);
-				if (whenStr.length > 0)
-				{
-					if (!getState(whenStr))
-						return false;
-				}
+				if (!getState(states[i]))
+					return false;
 			}
 			return true;
 		}
@@ -98,11 +110,80 @@ package me.feng3d.shortcut.handle
 		 * 获取是否处于指定状态中（支持一个！取反）
 		 * @param state 状态名称
 		 */
-		private function getState(state:String):Boolean
+		private function getState(state:State):Boolean
 		{
-			if (state.charAt(0) == "!")
-				return !ShortCut.getState(StringUtil.trim(state.substr(1)));
-			return ShortCut.getState(state);
+			var result:Boolean = shortCutContext.getState(state.state);
+			if (state.not)
+			{
+				result = !result;
+			}
+			return result;
+		}
+
+		/**
+		 * 检测是否按下给出的键
+		 * @param keys 按键数组
+		 */
+		private function checkActivityKeys(keys:Vector.<Key>):Boolean
+		{
+			for (var i:int = 0; i < keys.length; i++)
+			{
+				if (!getKeyValue(keys[i]))
+					return false;
+			}
+			return true;
+		}
+
+		/**
+		 * 获取按键状态（true：按下状态，false：弹起状态）
+		 */
+		private function getKeyValue(key:Key):Boolean
+		{
+			var value:Boolean = keyState.getKeyState(key.key);
+
+			if (key.not)
+			{
+				value = !value;
+			}
+
+			return value;
+		}
+
+		/**
+		 * 获取状态列表
+		 * @param when		状态字符串
+		 */
+		private function getStates(when:String):Vector.<State>
+		{
+			var states:Vector.<State> = new Vector.<State>();
+
+			var state:String = StringUtil.trim(when);
+			if (state.length == 0)
+				return states;
+
+			var stateStrs:Array = state.split("+");
+			for (var i:int = 0; i < stateStrs.length; i++)
+			{
+				states.push(new State(stateStrs[i]));
+			}
+
+			return states;
+		}
+
+		/**
+		 * 获取键列表
+		 * @param key		快捷键
+		 */
+		private function getKeys(key:String):Vector.<Key>
+		{
+			var keyStrs:Array = key.split("+");
+			var keys:Vector.<Key> = new Vector.<Key>();
+			for (var i:int = 0; i < keyStrs.length; i++)
+			{
+				keys.push(new Key(keyStrs[i]));
+			}
+
+			return keys;
 		}
 
 		/**
@@ -110,25 +191,70 @@ package me.feng3d.shortcut.handle
 		 */
 		public function destroy():void
 		{
-			var keys:Array = getKeys();
 			for (var i:int = 0; i < keys.length; i++)
 			{
-				keyState.removeEventListener(keys[i], onCapture);
+				keyState.removeEventListener(keys[i].key, onCapture);
 			}
+			shortCutContext = null;
+			keys = null;
+			states = null;
 		}
+	}
+}
+import mx.utils.StringUtil;
 
-		/**
-		 * 获取键列表
-		 */
-		private function getKeys():Array
+/**
+ * 按键
+ * @author feng 2016-6-6
+ */
+class Key
+{
+	/**
+	 * 是否取反
+	 */
+	public var not:Boolean;
+
+	/**
+	 * 状态名称
+	 */
+	public var key:String;
+
+	public function Key(key:String)
+	{
+		key = StringUtil.trim(key);
+		if (key.charAt(0) == "!")
 		{
-			var keys:Array = key.split("+");
-			for (var i:int = 0; i < keys.length; i++)
-			{
-				keys[i] = StringUtil.trim(keys[i]);
-			}
-
-			return keys;
+			not = true;
+			key = StringUtil.trim(key.substr(1));
 		}
+		this.key = key;
+	}
+}
+
+/**
+ * 按键
+ * @author feng 2016-6-6
+ */
+class State
+{
+	/**
+	 * 是否取反
+	 */
+	public var not:Boolean;
+
+	/**
+	 * 状态名称
+	 */
+	public var state:String;
+
+	public function State(state:String)
+	{
+		state = StringUtil.trim(state);
+		if (state.charAt(0) == "!")
+		{
+			not = true;
+			state = StringUtil.trim(state.substr(1));
+		}
+		this.state = state;
 	}
 }

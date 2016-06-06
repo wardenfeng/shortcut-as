@@ -40,20 +40,16 @@ package me.feng3d.shortcut.handle
 		public function releaseKey(key:String):void
 		{
 			keyStateDic[key] = false;
+			dispatchEvent(new Event(key));
 		}
 
 		/**
-		 * 检测是否按下给出的键
-		 * @param keys 按键数组
+		 * 获取按键状态
+		 * @param key 按键名称
 		 */
-		public function check(keys:Array):Boolean
+		public function getKeyState(key:String):Boolean
 		{
-			for (var i:int = 0; i < keys.length; i++)
-			{
-				if (!keyStateDic[keys[i]])
-					return false;
-			}
-			return true;
+			return !!keyStateDic[key];
 		}
 	}
 }

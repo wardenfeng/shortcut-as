@@ -18,7 +18,7 @@ package me.feng3d.shortcut.handle
 		 * 键盘按键字典 （补充常量，a-z以及鼠标按键不必再次列出）
 		 * 例如 boardKeyDic[Keyboard.CONTROL] = "ctrl";
 		 */
-		public var boardKeyDic:Dictionary;
+		private var boardKeyDic:Dictionary;
 
 		/**
 		 * 捕获的按键字典
@@ -92,7 +92,7 @@ package me.feng3d.shortcut.handle
 		/**
 		 * 鼠标事件
 		 */
-		protected function onMouseOnce(event:MouseEvent):void
+		private function onMouseOnce(event:MouseEvent):void
 		{
 			var mouseKey:String = event.type;
 			keyState.pressKey(mouseKey);
@@ -102,7 +102,7 @@ package me.feng3d.shortcut.handle
 		/**
 		 * 键盘按下事件
 		 */
-		protected function onKeydown(event:KeyboardEvent):void
+		private function onKeydown(event:KeyboardEvent):void
 		{
 			var boardKey:String = getBoardKey(event.keyCode);
 			if (boardKey != null)
@@ -112,7 +112,7 @@ package me.feng3d.shortcut.handle
 		/**
 		 * 键盘弹起事件
 		 */
-		protected function onKeyup(event:KeyboardEvent):void
+		private function onKeyup(event:KeyboardEvent):void
 		{
 			var boardKey:String = getBoardKey(event.keyCode);
 			if (boardKey)

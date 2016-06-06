@@ -25,7 +25,20 @@ package
 //			test1();
 //			test2();
 //			test3(); //测试状态中&&符号
-			test4(); //测试状态中取反符号
+//			test4(); //测试状态中取反符号!
+			test5(); //测试快捷键中取反符号!
+		}
+
+		private function test5():void
+		{
+			var shortcuts:Array = [ //
+				{key: "a+ ! b", command: "command_a", when: ""}, //
+				];
+			ShortCut.addShortCuts(shortcuts);
+			ShortCut.commandDispatcher.addEventListener("command_a", function(e:Event):void
+			{
+				trace("接受到命令：" + e.type);
+			});
 		}
 
 		private function test4():void
