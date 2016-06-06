@@ -5,9 +5,6 @@ package me.feng3d.shortcut.handle
 	import mx.utils.StringUtil;
 
 	import me.feng3d.shortcut.ShortCut;
-	import me.feng3d.shortcut.ns_shortcut;
-
-	use namespace ns_shortcut;
 
 	/**
 	 * 快捷键捕获

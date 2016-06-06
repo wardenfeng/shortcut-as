@@ -7,9 +7,6 @@ package me.feng3d.shortcut.handle
 	import flash.utils.Dictionary;
 
 	import me.feng3d.shortcut.ShortCutContext;
-	import me.feng3d.shortcut.ns_shortcut;
-
-	use namespace ns_shortcut;
 
 	/**
 	 * 按键捕获

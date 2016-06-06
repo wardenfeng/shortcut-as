@@ -3,8 +3,6 @@ package me.feng3d.shortcut
 	import flash.display.Stage;
 	import flash.events.IEventDispatcher;
 
-	use namespace ns_shortcut;
-
 	/**
 	 * 初始化快捷键模块
 	 * @author feng 2016-4-26
