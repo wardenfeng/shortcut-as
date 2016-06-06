@@ -92,11 +92,22 @@ package me.feng3d.shortcut.handle
 				var whenStr:String = StringUtil.trim(whens[i]);
 				if (whenStr.length > 0)
 				{
-					if (!ShortCut.stateDic[whenStr])
+					if (!getState(whenStr))
 						return false;
 				}
 			}
 			return true;
+		}
+
+		/**
+		 * 获取是否处于指定状态中（支持一个！取反）
+		 * @param state 状态名称
+		 */
+		private function getState(state:String):Boolean
+		{
+			if (state.charAt(0) == "!")
+				return !ShortCut.getState(StringUtil.trim(state.substr(1)));
+			return ShortCut.getState(state);
 		}
 
 		/**

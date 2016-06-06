@@ -23,7 +23,31 @@ package
 
 //			test();
 //			test1();
-			test2();
+//			test2();
+			test3(); //测试状态中&&符号
+//			test4(); //测试状态中取反符号
+		}
+
+		private function test3():void
+		{
+			var shortcuts:Array = [ //
+				{key: "a", command: "command_a", when: ""}, //
+				{key: "s", command: "command_s", when: ""}, //
+				{key: "d", command: "command_d", when: "state_a && state_s"}, //
+				];
+			ShortCut.addShortCuts(shortcuts);
+			ShortCut.commandDispatcher.addEventListener("command_a", function(e:Event):void
+			{
+				ShortCut.activityState("state_a");
+			});
+			ShortCut.commandDispatcher.addEventListener("command_s", function(e:Event):void
+			{
+				ShortCut.activityState("state_s");
+			});
+			ShortCut.commandDispatcher.addEventListener("command_d", function(e:Event):void
+			{
+				trace("接受到命令：" + e.type);
+			});
 		}
 
 		private function test2():void

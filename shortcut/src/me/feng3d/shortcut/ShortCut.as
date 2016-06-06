@@ -128,18 +128,29 @@ package me.feng3d.shortcut
 
 		/**
 		 * 激活状态
+		 * @param state 状态名称
 		 */
 		public static function activityState(state:String):void
 		{
-			ShortCut.stateDic[state] = true;
+			stateDic[state] = true;
 		}
 
 		/**
 		 * 取消激活状态
+		 * @param state 状态名称
 		 */
 		public static function deactivateState(state:String):void
 		{
-			ShortCut.stateDic[state] = false;
+			delete stateDic[state];
+		}
+
+		/**
+		 * 获取状态
+		 * @param state 状态名称
+		 */
+		public static function getState(state:String):Boolean
+		{
+			return !!stateDic[state];
 		}
 
 		/**
