@@ -67,9 +67,9 @@ package me.feng3d.shortcut
 		 * 取消激活状态
 		 * @param state 状态名称
 		 */
-		public static function deactivateState(state:String):void
+		public static function deactivityState(state:String):void
 		{
-			shortcutContext.deactivateState(state);
+			shortcutContext.deactivityState(state);
 		}
 
 		/**

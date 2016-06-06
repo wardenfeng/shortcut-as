@@ -82,14 +82,14 @@ package me.feng3d.shortcut.handle
 		/**
 		 * 处理捕获事件
 		 */
-		private function onCapture(event:Event):void
+		private function onCapture(event:ShortCutEvent):void
 		{
 			var inWhen:Boolean = checkActivityStates(states);
 			var pressKeys:Boolean = checkActivityKeys(keys);
 
 			if (pressKeys && inWhen)
 			{
-				shortCutContext.commandDispatcher.dispatchEvent(new ShortCutEvent(command));
+				shortCutContext.commandDispatcher.dispatchEvent(new ShortCutEvent(command, event.data));
 			}
 		}
 

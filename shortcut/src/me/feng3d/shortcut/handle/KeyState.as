@@ -25,22 +25,24 @@ package me.feng3d.shortcut.handle
 
 		/**
 		 * 按下键
-		 * @param key 键名称
+		 * @param key 	键名称
+		 * @param data	携带数据
 		 */
-		public function pressKey(key:String):void
+		public function pressKey(key:String, data:Object = null):void
 		{
 			keyStateDic[key] = true;
-			dispatchEvent(new Event(key));
+			dispatchEvent(new ShortCutEvent(key, data));
 		}
 
 		/**
 		 * 释放键
 		 * @param key	键名称
+		 * @param data	携带数据
 		 */
-		public function releaseKey(key:String):void
+		public function releaseKey(key:String, data:Object = null):void
 		{
 			keyStateDic[key] = false;
-			dispatchEvent(new Event(key));
+			dispatchEvent(new ShortCutEvent(key, data));
 		}
 
 		/**

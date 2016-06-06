@@ -132,7 +132,7 @@ package me.feng3d.shortcut
 		 * 取消激活状态
 		 * @param state 状态名称
 		 */
-		public function deactivateState(state:String):void
+		public function deactivityState(state:String):void
 		{
 			delete stateDic[state];
 		}

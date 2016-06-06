@@ -95,8 +95,8 @@ package me.feng3d.shortcut.handle
 		private function onMouseOnce(event:MouseEvent):void
 		{
 			var mouseKey:String = event.type;
-			keyState.pressKey(mouseKey);
-			keyState.releaseKey(mouseKey);
+			keyState.pressKey(mouseKey, event);
+			keyState.releaseKey(mouseKey, event);
 		}
 
 		/**
@@ -106,7 +106,7 @@ package me.feng3d.shortcut.handle
 		{
 			var boardKey:String = getBoardKey(event.keyCode);
 			if (boardKey != null)
-				keyState.pressKey(boardKey);
+				keyState.pressKey(boardKey, event);
 		}
 
 		/**
@@ -116,7 +116,7 @@ package me.feng3d.shortcut.handle
 		{
 			var boardKey:String = getBoardKey(event.keyCode);
 			if (boardKey)
-				keyState.releaseKey(boardKey);
+				keyState.releaseKey(boardKey, event);
 		}
 
 		/**

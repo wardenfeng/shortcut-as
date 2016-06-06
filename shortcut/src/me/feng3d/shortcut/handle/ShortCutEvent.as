@@ -9,12 +9,18 @@ package me.feng3d.shortcut.handle
 	public class ShortCutEvent extends Event
 	{
 		/**
+		 * 携带数据
+		 */
+		public var data:Object;
+
+		/**
 		 * 构建
 		 * @param command		命令名称
 		 */
-		public function ShortCutEvent(command:String)
+		public function ShortCutEvent(command:String, data:Object = null)
 		{
 			super(command);
+			this.data = data;
 		}
 	}
 }

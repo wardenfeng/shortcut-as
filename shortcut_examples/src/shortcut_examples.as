@@ -106,7 +106,7 @@ package
 			ShortCut.commandDispatcher.addEventListener("stopDragSceneCamera", function(e:Event):void
 			{
 				trace(e.type);
-				ShortCut.deactivateState("DragingSceneCamera");
+				ShortCut.deactivityState("DragingSceneCamera");
 			});
 		}
 
