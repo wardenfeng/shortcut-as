@@ -78,7 +78,7 @@ package me.feng3d.shortcut
 			{
 				var shortcut:Object = shortcuts[i];
 				var shortcutUniqueKey:String = getShortcutUniqueKey(shortcut);
-				captureDic[shortcutUniqueKey] ||= new ShortCutCapture(this, shortcut.key, shortcut.command, shortcut.when);
+				captureDic[shortcutUniqueKey] ||= new ShortCutCapture(this, shortcut.key, shortcut.command, shortcut.stateCommand, shortcut.when);
 			}
 		}
 

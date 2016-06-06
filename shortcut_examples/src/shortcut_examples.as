@@ -26,7 +26,31 @@ package
 //			test2();
 //			test3(); //测试状态中&&符号
 //			test4(); //测试状态中取反符号!
-			test5(); //测试快捷键中取反符号!
+//			test5(); //测试快捷键中取反符号!
+			test6(); //测试状态命令，可以使用分隔符，来执行多个命令和状态命令
+		}
+
+		private function test6():void
+		{
+			var shortcuts:Array = [ //
+				{key: MouseEvent.MOUSE_DOWN, stateCommand: "running,walking", when: ""}, //
+				{key: MouseEvent.MOUSE_MOVE, command: "run,run1", when: "running"}, //
+				{key: MouseEvent.MOUSE_UP, stateCommand: "!running,!walking", when: ""}, //
+				{key: MouseEvent.MOUSE_MOVE, command: "walk", when: "walking"}, //
+				];
+			ShortCut.addShortCuts(shortcuts);
+			ShortCut.commandDispatcher.addEventListener("run", function(e:Event):void
+			{
+				trace("接受到命令：" + e.type);
+			});
+			ShortCut.commandDispatcher.addEventListener("run1", function(e:Event):void
+			{
+				trace("接受到命令：" + e.type);
+			});
+			ShortCut.commandDispatcher.addEventListener("walk", function(e:Event):void
+			{
+				trace("接受到命令：" + e.type);
+			});
 		}
 
 		private function test5():void
