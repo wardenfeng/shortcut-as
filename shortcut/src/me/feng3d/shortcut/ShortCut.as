@@ -10,6 +10,8 @@ package me.feng3d.shortcut
 	import me.feng3d.shortcut.handle.KeyState;
 	import me.feng3d.shortcut.handle.ShortCutCapture;
 
+	use namespace ns_shortcut;
+
 	/**
 	 * 初始化快捷键模块
 	 * @author feng 2016-4-26
@@ -17,35 +19,35 @@ package me.feng3d.shortcut
 	public class ShortCut
 	{
 		/**
-		 * 按键状态
-		 */
-		public static var keyState:KeyState;
-
-		/**
-		 * 活动状态字典
-		 */
-		public static var activityStateDic:Dictionary;
-
-		/**
-		 * 按键捕获
-		 */
-		public static var keyCapture:KeyCapture;
-
-		/**
 		 * 命令派发器
 		 */
 		public static var commandDispatcher:IEventDispatcher;
 
 		/**
+		 * 按键状态
+		 */
+		ns_shortcut static var keyState:KeyState;
+
+		/**
+		 * 状态字典
+		 */
+		ns_shortcut static var stateDic:Dictionary;
+
+		/**
+		 * 按键捕获
+		 */
+		ns_shortcut static var keyCapture:KeyCapture;
+
+		/**
 		 * 键盘按键字典 （补充常量，a-z以及鼠标按键不必再次列出）
 		 * 例如 boardKeyDic[Keyboard.CONTROL] = "ctrl";
 		 */
-		public static var boardKeyDic:Dictionary;
+		ns_shortcut static var boardKeyDic:Dictionary;
 
 		/**
 		 * 捕获字典
 		 */
-		private static var captureDic:Dictionary;
+		ns_shortcut static var captureDic:Dictionary;
 
 		/**
 		 * 初始化快捷键模块
@@ -58,7 +60,7 @@ package me.feng3d.shortcut
 
 			captureDic = new Dictionary();
 			boardKeyDic = new Dictionary();
-			activityStateDic = new Dictionary();
+			stateDic = new Dictionary();
 			defaultSupportKeys();
 		}
 
@@ -122,6 +124,22 @@ package me.feng3d.shortcut
 				captureDic[key].destroy();
 				delete captureDic[key];
 			}
+		}
+
+		/**
+		 * 激活状态
+		 */
+		public static function activityState(state:String):void
+		{
+			ShortCut.stateDic[state] = true;
+		}
+
+		/**
+		 * 取消激活状态
+		 */
+		public static function deactivateState(state:String):void
+		{
+			ShortCut.stateDic[state] = false;
 		}
 
 		/**

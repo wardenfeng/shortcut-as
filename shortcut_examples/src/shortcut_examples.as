@@ -38,7 +38,7 @@ package
 			ShortCut.commandDispatcher.addEventListener("startDragSceneCamera", function(e:Event):void
 			{
 				trace(e.type);
-				ShortCut.activityStateDic["DragingSceneCamera"] = true;
+				ShortCut.activityState("DragingSceneCamera");
 			});
 			ShortCut.commandDispatcher.addEventListener("dragSceneCamera", function(e:Event):void
 			{
@@ -47,7 +47,7 @@ package
 			ShortCut.commandDispatcher.addEventListener("stopDragSceneCamera", function(e:Event):void
 			{
 				trace(e.type);
-				ShortCut.activityStateDic["DragingSceneCamera"] = false;
+				ShortCut.deactivateState("DragingSceneCamera");
 			});
 		}
 

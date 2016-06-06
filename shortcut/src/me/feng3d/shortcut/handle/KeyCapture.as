@@ -5,7 +5,11 @@ package me.feng3d.shortcut.handle
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
+
 	import me.feng3d.shortcut.ShortCut;
+	import me.feng3d.shortcut.ns_shortcut;
+
+	use namespace ns_shortcut;
 
 	/**
 	 * 按键捕获

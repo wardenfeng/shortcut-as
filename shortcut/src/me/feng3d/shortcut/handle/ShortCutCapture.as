@@ -5,7 +5,9 @@ package me.feng3d.shortcut.handle
 	import mx.utils.StringUtil;
 
 	import me.feng3d.shortcut.ShortCut;
+	import me.feng3d.shortcut.ns_shortcut;
 
+	use namespace ns_shortcut;
 
 	/**
 	 * 快捷键捕获
@@ -90,7 +92,7 @@ package me.feng3d.shortcut.handle
 				var whenStr:String = StringUtil.trim(whens[i]);
 				if (whenStr.length > 0)
 				{
-					if (!ShortCut.activityStateDic[whenStr])
+					if (!ShortCut.stateDic[whenStr])
 						return false;
 				}
 			}
