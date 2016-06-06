@@ -2,7 +2,6 @@ package me.feng3d.shortcut.handle
 {
 	import mx.utils.StringUtil;
 
-	import me.feng3d.shortcut.ShortCutContext;
 
 	/**
 	 * 快捷键捕获

@@ -2,6 +2,7 @@ package me.feng3d.shortcut
 {
 	import flash.display.Stage;
 	import flash.events.IEventDispatcher;
+	import me.feng3d.shortcut.handle.ShortCutContext;
 
 	/**
 	 * 初始化快捷键模块

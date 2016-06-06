@@ -6,7 +6,6 @@ package me.feng3d.shortcut.handle
 	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 
-	import me.feng3d.shortcut.ShortCutContext;
 
 	/**
 	 * 按键捕获

@@ -1,13 +1,10 @@
-package me.feng3d.shortcut
+package me.feng3d.shortcut.handle
 {
 	import flash.display.Stage;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
 	import flash.utils.Dictionary;
 
-	import me.feng3d.shortcut.handle.KeyCapture;
-	import me.feng3d.shortcut.handle.KeyState;
-	import me.feng3d.shortcut.handle.ShortCutCapture;
 
 	/**
 	 * 快捷键环境
